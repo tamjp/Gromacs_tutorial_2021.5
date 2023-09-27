@@ -1,0 +1,22 @@
+# Please change this name to match the tutorial project name, e.g. umbrella-sampling
+name: membrane-protein
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+# GROMACS tutorial core maintainers will add dependencies to the
+# template here if they are useful to multiple tutorials
+  - gromacs=2022=nompi*
+  - matplotlib
+  - nglview
+  - mdtraj
+  - notebook
+  - numpy
+  - requests
+  - pandas
+  - seaborn
+  - compilers
+  - openmpi
+  - cmake
+# Additional dependencies for your tutorial can follow this line
+
