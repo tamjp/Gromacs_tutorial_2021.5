@@ -1,0 +1,57 @@
+;;Preprocessing
+title                   = NVT equilibration 1
+define                  = -DPOSRES -DPOSRES_FC_BB=4000.0 -DPOSRES_FC_SC=2000.0 -DPOSRES_FC_LIPID=1000.0 -DDIHRES -DDIHRES_FC=1000.0 ; Position restraints
+
+;;Run and Output control
+integrator              = md       ; leap-frog algorithm for integrating Newton's equations of motion
+dt                      = 0.001    ; time step for integration
+nsteps                  = 150000   ; maximum number of steps to integrate or minimize
+nstxtcout               = 5000     ; save coordinates every 5 ps
+nstvout                 = 5000     ; save velocities every 0.2 ps
+nstfout                 = 5000     ; frequency to write forces to output trajectory
+nstcalcenergy           = 100      ; frequency for calculating the energie
+nstenergy               = 1000     ; frequency to write energies to energy file, save energies every 1 ps
+nstlog                  = 1000     ; frequency to write energies to log file, update log file every 1 ps
+;COM motion removal ; These options eliminate protein/membrane mobility in relation to the solvent/ions.
+nstcomm                 = 100      ; frequency for center of mass motion removal
+comm_mode               = linear   ; Remove center of mass translation
+comm_grps               = SOLU_MEMB SOLV   ; Two groups for center of mass motion removal, default is the whole system
+
+
+;;Neighbor searching
+cutoff-scheme           = Verlet   ; Generate a pair list with buffering 
+nstlist                 = 20       ; Frequency to update the neighbor list
+rlist                   = 1.2      ; Cut-off distance for the short-range neighbor list
+
+
+;;VdW
+vdwtype                 = Cut-off
+vdw-modifier            = Force-switch 
+rvdw_switch             = 1.0      ; Where to start switching the LJ potential [nm]
+rvdw                    = 1.2      ; Distance for the LJ or Buckingham cut-off [nm]
+
+
+;;Electrostatics
+coulombtype             = pme      ; Fast smooth Particle-Mesh Ewald (SPME) electrostatics
+rcoulomb                = 1.2      ; Distance for the Coulomb cut-off [nm]
+
+
+;;Bonds
+constraints             = h-bonds  ; Convert the bonds with H-atoms to constraints.
+constraint_algorithm    = LINCS    ; LINear Constraint Solver
+
+;;Temperature coupling 
+tcoupl                  = v-rescale       ; Modified version of Berendsen thermostat, Temperature coupling using velocity rescaling with a stochastic term 
+tc_grps                 = SOLU_MEMB SOLV  ; Two coupling groups - more accurate
+tau_t                   = 1.0  1.0        ; Time constant [ps]
+ref_t                   = 303.15  303.15  ; Reference temperature [K]
+
+;;Velocity generation
+gen-vel                 = yes        ; assign velocities from Maxwell distribution
+gen-temp                = 303.15     ; temperature for Maxwell distribution
+gen-seed                = -1         ; generate a random seed
+
+
+;;Pressure coupling is off
+pcoupl      = no        ; no pressure coupling in NVT
+

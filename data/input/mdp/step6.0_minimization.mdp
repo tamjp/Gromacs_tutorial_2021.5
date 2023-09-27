@@ -1,0 +1,31 @@
+;;Preprocessing
+title                   = CHARMM steepest descent energy minimization
+
+; Position restraints   
+;not applicable                      
+;;Run and output control
+integrator              = steep       ; A steepest descent algorithm for energy minimization
+nsteps                  = 50000       ; Maximum number of steps to integrate or minimize
+emtol                   = 1000.0      ; Tolerance [kJ mol-1 nm-1]
+
+;;Neighbour searching
+cutoff-scheme           = Verlet      ; Generate a pair list with buffering 
+nstlist                 = 10          ; Frequency to update the neighbour list [steps]
+rlist                   = 1.2
+
+
+;;VdW
+vdwtype                 = Cut-off
+vdw-modifier            = Force-switch 
+rvdw_switch             = 1.0         ; Where to start switching the LJ potential [nm]
+rvdw                    = 1.2         ; Distance for the LJ or Buckingham cut-off [nm]
+
+;;Electrostatics
+coulombtype             = pme         ; Fast smooth Particle-Mesh Ewald (SPME) electrostatics
+rcoulomb                = 1.2         ; Distance for the Coulomb cut-off [nm]
+
+;;Bonds
+constraints             = h-bonds     ; Convert the bonds with H-atoms to constraints
+constraint_algorithm    = LINCS       ; LINear Constraint Solver
+
+;-------------------------------------------------------------------------------------------
